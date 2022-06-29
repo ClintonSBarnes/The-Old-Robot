@@ -1,13 +1,14 @@
 ﻿Robot bobby = new Robot();
 string? commandEntry;
+int commandCount;
 
+Console.WriteLine("How many commands will you be entering? ");
+commandCount = Convert.ToInt16(Console.ReadLine());
 
-
-
-for (int i = 0; i < bobby.Commands.Length; i++)
+for (int i = 0; i < commandCount; i++)
 {
     Console.WriteLine("Enter command: (O)n, of(F), (N)orth, (S)outh, (E)ast, or (W)est.");
-    commandEntry = Console.ReadLine();
+    commandEntry = Console.ReadLine().ToUpper();
 
     RobotCommand newCommand = commandEntry switch
     {
@@ -19,7 +20,7 @@ for (int i = 0; i < bobby.Commands.Length; i++)
         "W" => new WestCommand(),
 
     };
-    bobby.Commands[i] = newCommand;
+    bobby.Commands.Add(newCommand);
 }
 bobby.Run();
 Console.ReadKey();
@@ -31,7 +32,7 @@ public class Robot
     public int x { get; set; }
     public int y { get; set; }
     public bool IsPowered { get; set; }
-    public RobotCommand?[] Commands { get; } = new RobotCommand?[3];
+    public List<RobotCommand?> Commands { get; } = new List<RobotCommand?>();
 
     public void Run()
     {
@@ -56,7 +57,7 @@ public class OnCommand : RobotCommand
     public override void Run(Robot robot)
     {
         robot.IsPowered = true;
-        
+
     }
 
 }
@@ -66,7 +67,7 @@ public class OffCommand : RobotCommand
     public override void Run(Robot robot)
     {
         robot.IsPowered = false;
-        
+
     }
 
 }
